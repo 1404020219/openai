@@ -1,0 +1,13 @@
+# docker-compose.yml
+
+version: '3'
+services:
+  mcp-agent:
+    build: .
+    image: mcp-agent
+    container_name: mcp-agent
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./test_images:/app/test_images
+    restart: unless-stopped

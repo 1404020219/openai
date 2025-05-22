@@ -1,0 +1,19 @@
+# 核心框架
+fastapi==0.110.3
+uvicorn==0.34.2
+websockets==15.0.1
+
+# 图像识别相关
+torch==2.7.0
+torchvision==0.22.0
+opencv-python==4.10.0.84
+numpy==2.2.6
+
+# 翻译模块
+googletrans==4.0.0-rc1
+httpx==0.13.3
+httpcore==0.9.1
+
+# 工具支持
+agent==0.1.3
+aiofiles==24.1.0

@@ -1,0 +1,7 @@
+mcp-demo/
+├── server.py         # MCP 服务端逻辑
+├── client.py         # MCP 客户端测试脚本
+├── agent.py          # AI Agent 核心逻辑（如推理、翻译）
+└── tools/            # 各类工具模块
+    ├── vision.py     # 图像识别模块
+    └── translate.py  # 翻译模块

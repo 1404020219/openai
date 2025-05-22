@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MCP 调试控制台</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    textarea, input { width: 100%; margin-bottom: 10px; }
+    pre { background: #f4f4f4; padding: 10px; height: 300px; overflow-y: scroll; }
+  </style>
+</head>
+<body>
+  <h1>🧠 MCP Agent 调试控制台</h1>
+
+  <h3>📤 发送请求</h3>
+  <select id="toolSelect">
+    <option value="vision-agent/inference">图像识别</option>
+    <option value="vision-agent/translate">翻译</option>
+    <option value="vision-agent/ocr">OCR识别</option>
+  </select>
+  <input type="text" id="argumentsInput" placeholder='{"image_path": "test_images/test_image.jpg"}' />
+  <button onclick="sendRequest()">发送</button>
+
+  <h3>📥 响应结果</h3>
+  <pre id="responseBox"></pre>
+
+  <script>
+    const ws = new WebSocket("ws://localhost:8000/mcp");
+
+    ws.onopen = () => {
+      log("🔗 已连接到 MCP 服务");
+      // 发送初始化握手
+      ws.send(JSON.stringify({
+        jsonrpc: "2.0",
+        id: "init",
+        method: "initialize",
+        params: { capabilities: {} }
+      }));
+    };
+
+    ws.onmessage = (event) => {
+      try {
+        const response = JSON.parse(event.data);
+        log("📩 收到响应:\n" + JSON.stringify(response, null, 2));
+      } catch (e) {
+        log("⚠️ 无法解析响应: " + event.data);
+      }
+    };
+
+    function sendRequest() {
+      const toolName = document.getElementById("toolSelect").value;
+      const arguments = JSON.parse(document.getElementById("argumentsInput").value);
+
+      const reqId = Math.random().toString(36).substring(2, 8);
+      const request = {
+        jsonrpc: "2.0",
+        id: reqId,
+        method: "callTool",
+        params: {
+          tool_name: toolName,
+          arguments: arguments
+        }
+      };
+      ws.send(JSON.stringify(request));
+      log("📤 已发送请求:\n" + JSON.stringify(request, null, 2));
+    }
+
+    function log(message) {
+      const box = document.getElementById("responseBox");
+      box.textContent += message + "\n\n";
+      box.scrollTop = box.scrollHeight;
+    }
+  </script>
+</body>
+</html>
