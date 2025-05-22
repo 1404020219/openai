@@ -10,7 +10,22 @@
 - ✅ FastAPI + WebSocket 集成
 
 ## 📁 目录结构
-mcp-ai-agent/ │ ├── mcp_server.py # MCP 服务端入口 ├── mcp_client.py # 客户端测试脚本 ├── agent.py # AI Agent 核心逻辑 ├── requirements.txt # 所需依赖库 │ └── tools/ # 工具模块目录 ├── vision.py # 图像识别工具 └── translate.py # 翻译工具
+mcp-ai-agent/
+│
+├── mcp_server.py             # 原有 MCP 服务端逻辑
+├── web_server.py             # 新增网页服务端逻辑（FastAPI + 模板渲染）
+├── agent.py                  # AI Agent 核心逻辑
+├── tools/                    
+│   ├── vision.py
+│   └── translate.py
+├── templates/
+│   └── index.html            # 网页模板
+├── static/
+│   └── style.css             # 可选样式文件
+├── uploads/                  # 临时保存上传的图片
+├── requirements.txt
+└── README.md
+
 
 ## 🔧 使用方式
 bash
